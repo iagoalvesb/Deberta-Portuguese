@@ -1,0 +1,1 @@
+Esta pasta deve conter os 3 conjuntos de dados nomeados exatamente: "train.txt"; "test.txt"; "valid.txt".
