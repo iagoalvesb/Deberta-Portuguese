@@ -23,6 +23,16 @@ from .dist_launcher import get_ngpu
 from .optimizer_utils import create_xoptimizer
 from ._utils import batch_to
 
+import wandb
+wandb_config = {
+    "project": "deberta",
+    "entity": "gabson",
+    "api_key": "7d7deda5ab99137996e34e47dc688b1d6b4d179c",
+    "log_config": True
+}
+
+wandb.init(reinit=True, config=wandb_config)
+
 __all__ = ['DistributedTrainer', 'set_random_seed']
 
 def set_random_seed(seed, cpu_only=False):
@@ -222,6 +232,7 @@ class DistributedTrainer:
         self.optimizer.zero_grad()
         continue
       go_next = True
+    wandb.log({'step_loss': step_loss, 'batch_size': batch_size, 'loss_scale': loss_scale})
     self.trainer_state.update_step(step_loss, batch_size , loss_scale)
     if self.update_fn is not None:
       self.update_fn(self, self.model, loss_scale)
