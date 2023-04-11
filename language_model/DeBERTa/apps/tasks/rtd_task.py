@@ -35,6 +35,7 @@ from ...data import DistributedBatchSampler, SequentialSampler, BatchSampler, As
 from ..models import MaskedLanguageModel,ReplacedTokenDetectionModel
 from .mlm_task import NGramMaskGenerator
 from .._utils import merge_distributed, join_chunks
+import wandb
 
 logger=get_logger()
 
@@ -322,6 +323,12 @@ dataset_size = dataset_size, shuffle=True, **kwargs)
           for key in sorted(result.keys()):
             logger.info("  %s = %s", key, str(result[key]))
         eval_results[name]=(eval_metric, predicts, labels)
+        
+        wandb.log({'perplexity': result['perplexity'],
+        'eval_loss': result['eval_loss'],
+        'eval_metric': result['eval_metric'],
+        'eval_samples': result['eval_samples']
+        })
 
       return eval_results
     return eval_fn
