@@ -6,7 +6,7 @@ cd $SCRIPT_DIR
 cache_dir=/tmp/DeBERTa/MLM/
 
 max_seq_length=512
-data_dir=$cache_dir/wiki103/spm_$max_seq_length
+data_dir=$cache_dir/dataset/spm_$max_seq_length
 
 function setup_wiki_data(){
 	task=$1
@@ -16,12 +16,13 @@ function setup_wiki_data(){
 	fi
 
 	if [[ ! -e  $data_dir/test.txt ]]; then
-		wget -q https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-v1.zip -O $cache_dir/wiki103.zip
-		unzip -j $cache_dir/wiki103.zip -d $cache_dir/wiki103
+		#wget -q https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-v1.zip -O $cache_dir/wiki103.zip
+		#unzip -j $cache_dir/wiki103.zip -d $cache_dir/wiki103
 		mkdir -p $data_dir
-		python ./prepare_data.py -i $cache_dir/wiki103/wiki.train.tokens -o $data_dir/train.txt --max_seq_length $max_seq_length
-		python ./prepare_data.py -i $cache_dir/wiki103/wiki.valid.tokens -o $data_dir/valid.txt --max_seq_length $max_seq_length
-		python ./prepare_data.py -i $cache_dir/wiki103/wiki.test.tokens -o $data_dir/test.txt --max_seq_length $max_seq_length
+		# python ./prepare_data.py -i /content/drive/MyDrive/deberta_ttt/deberta/DeBERTa/dataset/train.txt -o $data_dir/train.txt --max_seq_length $max_seq_length
+        python ./prepare_data.py -i ./dataset/train.txt -o $data_dir/train.txt --max_seq_length $max_seq_length
+		python ./prepare_data.py -i ./dataset/valid.txt -o $data_dir/valid.txt --max_seq_length $max_seq_length
+		python ./prepare_data.py -i ./dataset/test.txt -o $data_dir/test.txt --max_seq_length $max_seq_length
 	fi
 }
 
@@ -82,7 +83,7 @@ esac
 python -m DeBERTa.apps.run --model_config config.json  \
 	--tag $tag \
 	--do_train \
-	--num_training_steps 1000000 \
+	--num_training_steps 2000  \
 	--max_seq_len $max_seq_length \
 	--dump 10000 \
 	--task_name $Task \
