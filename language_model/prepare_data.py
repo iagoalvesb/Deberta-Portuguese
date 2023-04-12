@@ -8,8 +8,9 @@ from tqdm import tqdm
 import sys
 
 def tokenize_data(input, output=None, max_seq_length=512):  
-  p, t = deberta.load_vocab(vocab_path='tokenizer/spm.model', vocab_type='spm', pretrained_id='deberta-v3-base')
-  tokenizer=deberta.tokenizers[t](p)
+#   vocab_path, vocab_type = deberta.load_vocab(vocab_path='tokenizer/spm.model', vocab_type='spm', pretrained_id='deberta-v3-base')
+  vocab_path, vocab_type = deberta.load_vocab(vocab_path='tokenizer/spm.model', vocab_type='spm')
+  tokenizer = deberta.tokenizers[vocab_type](vocab_path)
   if output is None:
     output=input + '.spm'
   all_tokens = []
