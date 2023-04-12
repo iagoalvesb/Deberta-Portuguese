@@ -6,20 +6,13 @@ cd $SCRIPT_DIR
 cache_dir=/tmp/DeBERTa/RTD/
 
 max_seq_length=512
-data_dir=$cache_dir/dataset/spm_$max_seq_length
+data_dir=$cache_dir/dataset
 
 function setup_wiki_data(){
 	task=$1
-	mkdir -p $cache_dir
-	if [[ ! -e  $cache_dir/spm.model ]]; then
-		wget -q https://huggingface.co/microsoft/deberta-v3-base/resolve/main/spm.model -O $cache_dir/spm.model
-	fi
 
 	if [[ ! -e  $data_dir/test.txt ]]; then
-		#wget -q https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-v1.zip -O $cache_dir/wiki103.zip
-		#unzip -j $cache_dir/wiki103.zip -d $cache_dir/wiki103
 		mkdir -p $data_dir
-		# python ./prepare_data.py -i /content/drive/MyDrive/deberta_ttt/deberta/DeBERTa/dataset/train.txt -o $data_dir/train.txt --max_seq_length $max_seq_length
         python ./prepare_data.py -i ./dataset/train.txt -o $data_dir/train.txt --max_seq_length $max_seq_length
 		python ./prepare_data.py -i ./dataset/valid.txt -o $data_dir/valid.txt --max_seq_length $max_seq_length
 		python ./prepare_data.py -i ./dataset/test.txt -o $data_dir/test.txt --max_seq_length $max_seq_length
@@ -101,11 +94,11 @@ esac
 python -m DeBERTa.apps.run --model_config config.json  \
 	--tag $tag \
 	--do_train \
-	--num_training_steps 2000  \
+	--num_training_steps 10  \
 	--max_seq_len $max_seq_length \
 	--dump 10000 \
 	--task_name $Task \
 	--data_dir $data_dir \
-	--vocab_path $cache_dir/spm.model \
+	--vocab_path tokenizer/spm.model \
 	--vocab_type spm \
 	--output_dir /tmp/ttonly/$tag/$task  $parameters
