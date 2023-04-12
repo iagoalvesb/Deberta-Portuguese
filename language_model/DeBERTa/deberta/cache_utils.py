@@ -120,9 +120,10 @@ def load_vocab(vocab_path=None, vocab_type=None, pretrained_id=None, tag=None, n
     vocab_type = pretrained.vocab_type
     url = pretrained.vocab_url
     outname = os.path.basename(url)
-    vocab_path =os.path.join(cache_dir, outname)
-    if (not os.path.exists(vocab_path)) or no_cache:
-      asset = download_asset(url, outname, tag=tag, no_cache=no_cache, cache_dir=cache_dir)
+    if vocab_path is None:
+      vocab_path = os.path.join(cache_dir, outname)
+      if (not os.path.exists(vocab_path)) or no_cache:
+        asset = download_asset(url, outname, tag=tag, no_cache=no_cache, cache_dir=cache_dir)
   if vocab_type is None:
     vocab_type = 'spm'
   return vocab_path, vocab_type
