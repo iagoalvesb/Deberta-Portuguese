@@ -13,3 +13,4 @@ sentencepiece
 #GitPython
 torch
 #torchvision
+wandb
