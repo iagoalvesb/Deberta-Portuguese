@@ -11,7 +11,7 @@ num_training_steps=100
 num_train_epochs=1
 learning_rate=1e-4
 train_batch_size=6
-
+warmup=0.01
 
 
 data_dir=$cache_dir/dataset
@@ -37,7 +37,7 @@ case ${init,,} in
 	deberta-v3-base)
 	parameters=" --num_train_epochs $num_train_epochs \
 	--model_config rtd_base.json \
-	--warmup 0.01 \
+	--warmup $warmup \
 	--learning_rate $learning_rate \
 	--train_batch_size $train_batch_size \
 	--decoupled_training True \
