@@ -12,6 +12,7 @@ psutil
 sentencepiece
 #GitPython
 torch
+tqdm
 sentencepiece
 #torchvision
 wandb
