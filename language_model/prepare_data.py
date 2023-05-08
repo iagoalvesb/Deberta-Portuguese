@@ -8,22 +8,15 @@ import sentencepiece as spm
 
 import sys
 
-class Tokenizer(object):
-    def __init__(self, tokenizer_path) -> None:
-        self.tokenizer_path = tokenizer_path
-        self.sp = spm.SentencePieceProcessor(model_file=self.tokenizer_path)
-
-    def tokenize(self, l) -> list:
-        tokens = self.sp.encode_as_ids(l)
-        return tokens
 
 def tokenize_data(input, output=None, max_seq_length=512):  
-#   vocab_path, vocab_type = deberta.load_vocab(vocab_path='tokenizer/spm.model', vocab_type='spm', pretrained_id='deberta-v3-base')
+  vocab_path, vocab_type = deberta.load_vocab(vocab_path='tokenizer/spm.model', vocab_type='spm')
+  tokenizer = deberta.tokenizers[vocab_type](vocab_path)
+  seq_length = max_seq_length - 2     # 2 tokens especiais
+  
   remaining_tokens = []
-  tokenizer = Tokenizer('deBeRta')
-
-  with open('data_debertav3/train_wiki_brwac.raw', encoding = 'utf-8') as fs:
-      with open('deberta_v3_pt_tokenized/train.txt', 'w', encoding = 'utf-8') as wfs:
+  with open(input , encoding = 'utf-8') as fs:
+      with open(output, 'w', encoding = 'utf-8') as wfs:
           for l in tqdm(fs, ncols=80, desc='Loading'):
               if len(l) > 0:
                   tokens = tokenizer.tokenize(l)
@@ -32,9 +25,9 @@ def tokenize_data(input, output=None, max_seq_length=512):
 
               remaining_tokens.extend(tokens)
 
-              while len(remaining_tokens) >= 510:
-                  wfs.write(' '.join(remaining_tokens[:510]) + '\n')
-                  remaining_tokens = remaining_tokens[510:]
+              while len(remaining_tokens) >= seq_length:
+                  wfs.write(' '.join(remaining_tokens[:seq_length]) + '\n')
+                  remaining_tokens = remaining_tokens[seq_length:]
 
   #print(f'Saved {lines} lines to {output}')
 
