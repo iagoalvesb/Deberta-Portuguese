@@ -6,7 +6,7 @@ Este projeto, baseado no modelo [Deberta](https://github.com/microsoft/DeBERTa) 
 
 Este modelo foi pré-treinado com base na porção em portugues do corpus [OSCAR](https://huggingface.co/datasets/oscar-corpus/OSCAR-2301) (Open Super-large Crawled Aggregated coRpus). O projeto OSCAR é um projeto de código aberto que se concentra especificamente no fornecimento de grandes quantidades de recursos e conjuntos de dados multilíngues baseados na Web, dados brutos não anotados que são comumente usados no pré-treinamento de grandes modelos de aprendizado profundo. A porção do corpus que corresponde à língua portuguesa dispõe de 105.0 GB de dados textuais, sendo esse o conjunto utilizado para o treinamento do modelo.
 
-O [tokenizador](https://huggingface.co/iagoalves/portuguese_deberta_tokenizer) foi treinado em 1% do corpus citado e possui o tamanho de vocabulário igual a 128k.
+O [tokenizador](https://huggingface.co/iagoalves/portuguese_deberta_tokenizer) disponível neste repositório foi treinado em 1% do corpus citado e possui o tamanho de vocabulário igual a 128k.
 
 ## Reprodução
 
